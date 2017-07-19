@@ -19,6 +19,8 @@
   border-radius: 50%;
   height: 0;
   width: 0;
+
+  margin: auto;
 }
 
 .dot-0 {
@@ -43,4 +45,25 @@
 
 .dot-5 {
   border: 15px solid purple;
+}
+
+.guess-col button {
+  border-radius: 25%;
+  border: 2px outset grey;
+  background-color: white;
+
+  margin: 3px;
+}
+
+.guess-col button:active i {
+  display: inline-block;
+  transform: translate( 0.75px, 0.75px );
+}
+
+.guess-col button:active {
+  border-style: inset;
+}
+
+.guess-col button:focus {
+  outline: none;
 }
