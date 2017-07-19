@@ -1,18 +1,33 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { fromJS } from 'immutable';
 import './App.css';
 
 class App extends Component {
+  static get namespace(){
+    return 'mastermind-game';
+  }
+
+  static get actions(){
+    return {};
+  }
+
+  static get reducer(){
+    return {};
+  }
+
+  static get initState(){
+    return fromJS({});
+  }
+  
   render() {
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <h2>Mastermind Game</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <div>
+          Here will go the game nu.
+        </div>
       </div>
     );
   }
