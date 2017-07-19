@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Game from './Game';
 import registerServiceWorker from './registerServiceWorker';
 
 import { bootApp } from 'tahini';
 
-const TahiniApp = bootApp().getDevice(App);
+const TahiniGame = bootApp().getDevice(Game);
 
 ReactDOM.render(
-  <TahiniApp />,
+  <TahiniGame />,
   document.getElementById('root'));
 registerServiceWorker();

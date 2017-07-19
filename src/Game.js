@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { fromJS } from 'immutable';
-import './App.css';
+import './Game.css';
 
-class App extends Component {
+class Game extends Component {
   static get namespace(){
     return 'mastermind-game';
   }
@@ -21,8 +21,8 @@ class App extends Component {
   
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
+      <div className="Game">
+        <div className="Game-header">
           <h2>Mastermind Game</h2>
         </div>
         <div>
@@ -33,4 +33,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Game;
