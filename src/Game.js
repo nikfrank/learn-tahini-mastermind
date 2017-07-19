@@ -16,7 +16,10 @@ class Game extends Component {
   }
 
   static get initState(){
-    return fromJS({});
+    return fromJS({
+      code: [ 0, 2, 1, 3 ],
+      guess: [ 0, 0, 0, 0 ],
+    });
   }
   
   render() {
