@@ -18,6 +18,8 @@ class Game extends Component {
         type: 'changeGuessDot',
         payload: { dotIndex, diff: -1 },
       }),
+
+      guess: ()=> ({ type: 'guess' }),
     };
   }
 
@@ -26,6 +28,9 @@ class Game extends Component {
       changeGuessDot: (state, { payload })=>
         state.updateIn(['guess', payload.dotIndex], dot=>
           (dot + 6 + payload.diff) % 6 ),
+
+      guess: (state)=>
+        state.set('guess', fromJS([ 0, 0, 0, 0 ]) ),
     };
   }
 
@@ -60,6 +65,9 @@ class Game extends Component {
                 </div>
               ) )
             }
+            <button className="guess-button" onClick={this.props.guess}>
+              Guess!
+            </button>
           </div>
         </div>
       </div>
