@@ -59,6 +59,25 @@ it('provides up and down buttons for each dot', () => {
   expect( decGuessDot.mock.calls.length ).toEqual( cols.length );
 });
 
+it('provides a guess button', () => {
+  const state = fromJS({
+    guess: [ 2, 3, 4, 5 ]
+  });
+
+  const guess = jest.fn();
+
+  const p = mount(<Game subState={state}
+                        guess={guess}/>);
+
+  const guessButton = p.find('.guess-button');
+
+  expect( guessButton.length ).toEqual( 1 );
+
+  guessButton.at(0).simulate('click');
+
+  expect( guess.mock.calls.length ).toEqual( 1 );
+});
+
 
 it('user can set code to what he wants', () => {
   const stores = bootStores();
