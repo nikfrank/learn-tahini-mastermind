@@ -8,11 +8,25 @@ class Game extends Component {
   }
 
   static get actions(){
-    return {};
+    return {
+      incGuessDot: (dotIndex) => ({
+        type: 'changeGuessDot',
+        payload: { dotIndex, diff: 1 },
+      }),
+      
+      decGuessDot: (dotIndex) => ({
+        type: 'changeGuessDot',
+        payload: { dotIndex, diff: -1 },
+      }),
+    };
   }
 
   static get reducer(){
-    return {};
+    return {
+      changeGuessDot: (state, { payload })=>
+        state.updateIn(['guess', payload.dotIndex], dot=>
+          (dot + 6 + payload.diff) % 6 ),
+    };
   }
 
   static get initState(){
@@ -35,10 +49,14 @@ class Game extends Component {
           <div className="Game-guess-row">
             {
               guess.map( (dot, i)=> (
-                <div className="guess-col">
-                  <button> <i>▲</i> </button>
+                <div className="guess-col" key={i}>
+                  <button onClick={()=> this.props.incGuessDot(i)}>
+                    <i>▲</i>
+                  </button>
                   <div key={i+''+dot} className={`guess-dot dot-${dot}`}></div>
-                  <button> <i>▼</i> </button>
+                  <button onClick={()=> this.props.decGuessDot(i)}>
+                    <i>▼</i>
+                  </button>
                 </div>
               ) )
             }
