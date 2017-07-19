@@ -1,8 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Game from './Game';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<Game />, div);
+import { mount } from 'enzyme';
+import { fromJS } from 'immutable';
+
+it('renders the current guess', () => {
+
+});
+
+
+it('provides up and down buttons for each dot', () => {
+  
+});
+
+
+it('user can set code to what he wants', () => {
+  
 });
