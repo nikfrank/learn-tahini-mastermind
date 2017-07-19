@@ -8,3 +8,39 @@
   padding: 10px;
   color: white;
 }
+
+
+.Game-guess-row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.guess-dot {
+  border-radius: 50%;
+  height: 0;
+  width: 0;
+}
+
+.dot-0 {
+  border: 15px solid red;
+}
+
+.dot-1 {
+  border: 15px solid orange;
+}
+
+.dot-2 {
+  border: 15px solid yellow;
+}
+
+.dot-3 {
+  border: 15px solid green;
+}
+
+.dot-4 {
+  border: 15px solid blue;
+}
+
+.dot-5 {
+  border: 15px solid purple;
+}

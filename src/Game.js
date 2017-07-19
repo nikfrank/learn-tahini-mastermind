@@ -35,9 +35,7 @@ class Game extends Component {
           <div className="Game-guess-row">
             {
               guess.map( (dot, i)=> (
-                <div key={i+''+dot} className={`guess-dot dot-${dot}`}>
-                  {dot}
-                </div>
+                <div key={i+''+dot} className={`guess-dot dot-${dot}`}></div>
               ) )
             }
           </div>
