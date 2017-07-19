@@ -23,13 +23,24 @@ class Game extends Component {
   }
   
   render() {
+    const guess = this.props.subState.get('guess');
+    
     return (
       <div className="Game">
         <div className="Game-header">
           <h2>Mastermind Game</h2>
         </div>
-        <div>
-          Here will go the game nu.
+        
+        <div className="Game-board">
+          <div className="Game-guess-row">
+            {
+              guess.map( (dot, i)=> (
+                <div key={i+''+dot} className={`guess-dot dot-${dot}`}>
+                  {dot}
+                </div>
+              ) )
+            }
+          </div>
         </div>
       </div>
     );

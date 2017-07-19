@@ -6,7 +6,7 @@ import registerServiceWorker from './registerServiceWorker';
 
 import { bootApp } from 'tahini';
 
-const TahiniGame = bootApp().getDevice(Game);
+const TahiniGame = bootApp().getDevice(Game, [], Game.initState);
 
 ReactDOM.render(
   <TahiniGame />,
