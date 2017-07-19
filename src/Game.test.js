@@ -4,6 +4,15 @@ import Game from './Game';
 import { mount } from 'enzyme';
 import { fromJS } from 'immutable';
 
+import {
+  bootStores,
+  connectDeviceFactory,
+
+  getNextState,
+  toJS,
+} from 'tahini';
+
+
 it('renders the current guess', () => {
   const state = fromJS({
     guess: [ 2, 3, 4, 5 ]
@@ -52,5 +61,40 @@ it('provides up and down buttons for each dot', () => {
 
 
 it('user can set code to what he wants', () => {
+  const stores = bootStores();
+  
+  const { getDevice } = connectDeviceFactory( stores );
+  const { appStore } = stores;
+
+  const dataPath = [];
+  const GameD = getDevice(Game, dataPath, Game.initState);
+
+  const p = mount(<GameD />);
+
+  const state = appStore.getState();
+
+  expect( state.get('guess') ).toEqual( Game.initState.get('guess') );
+  
+
+  return Promise
+    .resolve()
+
+    .then( ()=> p.find('.guess-col').at(0).find('button').at(0) )
+    .then( getNextState(
+      appStore,
+      incButton => incButton.simulate('click')
+    ) ).then(toJS)
+    .then( state => {
+      expect( state.guess[0] ).toEqual( 1 )
+    })
+
+    .then( ()=> p.find('.guess-col').at(3).find('button').at(1) )
+    .then( getNextState(
+      appStore,
+      decButton => decButton.simulate('click')
+    ) ).then(toJS)
+    .then( state => {
+      expect( state.guess[3] ).toEqual( 5 )
+    })
   
 });
