@@ -30,6 +30,9 @@ class Game extends Component {
           (dot + 6 + payload.diff) % 6 ),
 
       guess: (state)=>
+        // here calculate the score
+        // push it along withe guess to .guesses
+        // ( could render score, no need to duplicate calculation! )
         state.set('guess', fromJS([ 0, 0, 0, 0 ]) ),
     };
   }
