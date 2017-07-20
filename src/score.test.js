@@ -1,4 +1,5 @@
 import score from './score';
+import { fromJS } from 'immutable';
 
 const cases = [
   { code: [ 0, 0, 0, 0 ], guess: [ 0, 0, 0, 0 ], result: [ 4, 0 ] },
@@ -12,7 +13,7 @@ const cases = [
 
 
 cases.forEach( ({ code, guess, result })=> {
-  it('calculates the score correctly for each case', () => {
-    expect( score(code, guess) ).toEqual( result );
+  it('calculates the score correctly for case '+result.join(), () => {
+    expect( score( fromJS(code), fromJS(guess) ) ).toEqual( result );
   });
 });
