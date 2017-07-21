@@ -114,6 +114,36 @@ it('user can set code to what he wants', () => {
     ) ).then(toJS)
     .then( state => {
       expect( state.guess[3] ).toEqual( 5 )
-    })
-  
+    });  
 });
+
+
+
+it('user can guess as he pleases', () => {
+  const stores = bootStores();
+  
+  const { getDevice } = connectDeviceFactory( stores );
+  const { appStore } = stores;
+
+  const dataPath = [];
+  const GameD = getDevice(Game, dataPath, Game.initState);
+
+  const p = mount(<GameD />);
+
+  const state = appStore.getState();
+
+  expect( state.get('guess') ).toEqual( Game.initState.get('guess') );
+  
+
+  return Promise
+    .resolve()
+
+  // change something in the code
+
+  // find the guess button
+  // click it
+  // expect the guess & score to be pushed to .guesses
+  
+    .then( ()=> p.find('.guess-col').at(0).find('button').at(0) )
+});
+
