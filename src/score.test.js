@@ -40,7 +40,7 @@ const cases = [
   { code: [ 0, 1, 1, 2 ], guess: [ 1, 1, 4, 4 ], result: [ 1, 1 ] },
   { code: [ 0, 1, 0, 1 ], guess: [ 0, 0, 4, 4 ], result: [ 1, 1 ] },
   { code: [ 0, 1, 0, 1 ], guess: [ 0, 4, 1, 4 ], result: [ 1, 1 ] },
-  { code: [ 0, 1, 1, 1 ], guess: [ 1, 0, 4, 4 ], result: [ 1, 1 ] },
+  { code: [ 0, 1, 1, 1 ], guess: [ 1, 1, 4, 4 ], result: [ 1, 1 ] },
 
   { code: [ 0, 1, 2, 3 ], guess: [ 0, 2, 1, 4 ], result: [ 1, 2 ] },
   { code: [ 0, 1, 1, 2 ], guess: [ 0, 2, 4, 1 ], result: [ 1, 2 ] },
