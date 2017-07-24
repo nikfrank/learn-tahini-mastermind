@@ -114,7 +114,7 @@ it('user can set code to what he wants', () => {
     ) ).then(toJS)
     .then( state => {
       expect( state.guess[3] ).toEqual( 5 )
-    });  
+    });
 });
 
 
@@ -138,12 +138,24 @@ it('user can guess as he pleases', () => {
   return Promise
     .resolve()
 
-  // change something in the code
+    .then( ()=> p.find('.guess-col').at(0).find('button').at(1) )
+    .then( getNextState(
+      appStore,
+      decButton => decButton.simulate('click')
+    ) ).then(toJS)
+    .then( state => {
+      expect( state.guess[0] ).toEqual( 5 )
+    })
 
-  // find the guess button
-  // click it
-  // expect the guess & score to be pushed to .guesses
-  
-    .then( ()=> p.find('.guess-col').at(0).find('button').at(0) )
+    .then( ()=> p.find('button.guess-button').at(0) )
+    .then( getNextState(
+      appStore, guessButton => guessButton.simulate('click')
+    ) ).then(toJS)
+    .then( state => {
+      expect( state.guess ).toEqual( [ 0, 0, 0, 0 ] );
+      expect( state.guesses.length ).toEqual( 1 );
+      expect( state.guesses[0].code ).toEqual( [ 5, 0, 0, 0 ] );
+      expect( state.guesses[0].score ).toEqual( [ 0, 1 ] ); // code is [ 0, 1, 2, 3 ]
+    })
 });
 
