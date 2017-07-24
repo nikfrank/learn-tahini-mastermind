@@ -22,7 +22,7 @@ class Game extends Component {
       }),
 
       guess: ()=> ({ type: 'guess' }),
-
+  
       setCode: code => ({
         type: 'setCode',
         payload: { code },
@@ -47,7 +47,8 @@ class Game extends Component {
         ).set('guess', fromJS([ 0, 0, 0, 0 ]) ),
 
       setCode: (state, { payload })=>
-        state.set('code', fromJS( payload.code ) ),
+        state.set('code', fromJS( payload.code ) )
+             .set('guesses', fromJS([])),
     };
   }
 
@@ -60,6 +61,10 @@ class Game extends Component {
   }
 
   componentDidMount(){
+    this.resetGame();
+  }
+
+  resetGame = ()=> {
     this.props.setCode( this.props.randomCodeGenerator() );
   }
   
@@ -69,7 +74,7 @@ class Game extends Component {
     
     return (
       <div className="Game">
-        <div className="Game-header">
+        <div className="Game-header" onClick={this.resetGame}>
           <h2>Mastermind Game</h2>
         </div>
         

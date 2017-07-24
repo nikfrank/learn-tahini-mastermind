@@ -170,7 +170,61 @@ it('user can guess as he pleases', () => {
       expect( p.find('.score-dot-black').length ).toEqual( 0 );
       expect( p.find('.score-dot-pink').length ).toEqual( 1 );
       expect( p.find('.score-dot-white').length ).toEqual( 3 );
-    })
-
+    });
 });
 
+
+it('user can reset the game by hitting the header', () => {
+  const stores = bootStores();
+  
+  const { getDevice } = connectDeviceFactory( stores );
+  const { appStore } = stores;
+
+  const dataPath = [];
+  const GameD = getDevice(Game, dataPath, Game.initState);
+
+  const p = mount(<GameD randomCodeGenerator={codeGen}/>);
+
+  const state = appStore.getState();
+
+  expect( state.get('guess') ).toEqual( Game.initState.get('guess') );
+  
+
+  return Promise
+    .resolve()
+
+    .then( ()=> p.find('.guess-col').at(0).find('button').at(1) )
+    .then( getNextState(
+      appStore,
+      decButton => decButton.simulate('click')
+    ) ).then(toJS)
+    .then( state => {
+      expect( state.guess[0] ).toEqual( 5 )
+    })
+
+    .then( ()=> p.find('button.guess-button').at(0) )
+    .then( getNextState(
+      appStore, guessButton => guessButton.simulate('click')
+    ) ).then(toJS)
+    .then( state => {
+      expect( state.guess ).toEqual( [ 0, 0, 0, 0 ] );
+      expect( state.guesses.length ).toEqual( 1 );
+      expect( state.guesses[0].code ).toEqual( [ 5, 0, 0, 0 ] );
+      expect( state.guesses[0].score ).toEqual( [ 0, 1 ] ); // code is [ 0, 2, 1, 3 ]
+
+      expect( p.find('.Game-scored-guess').length ).toEqual( 1 );
+      
+      expect( p.find('.score-dot-black').length ).toEqual( 0 );
+      expect( p.find('.score-dot-pink').length ).toEqual( 1 );
+      expect( p.find('.score-dot-white').length ).toEqual( 3 );
+    })
+
+    .then( ()=> p.find('.Game-header') )
+    .then( getNextState(
+      appStore,
+      header => header.simulate('click')
+    ) ).then(toJS)
+    .then( state => {
+      expect( state.guesses.length ).toEqual( 0 )
+    })
+});
