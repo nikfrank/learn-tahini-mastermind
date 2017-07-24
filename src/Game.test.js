@@ -155,9 +155,13 @@ it('user can guess as he pleases', () => {
       expect( state.guess ).toEqual( [ 0, 0, 0, 0 ] );
       expect( state.guesses.length ).toEqual( 1 );
       expect( state.guesses[0].code ).toEqual( [ 5, 0, 0, 0 ] );
-      expect( state.guesses[0].score ).toEqual( [ 0, 1 ] ); // code is [ 0, 1, 2, 3 ]
+      expect( state.guesses[0].score ).toEqual( [ 0, 1 ] ); // code is [ 0, 2, 1, 3 ]
 
-      expect( p.find('.scored-guess').length ).toEqual( 1 );
+      expect( p.find('.Game-scored-guess').length ).toEqual( 1 );
+      
+      expect( p.find('.score-dot-black').length ).toEqual( 0 );
+      expect( p.find('.score-dot-pink').length ).toEqual( 1 );
+      expect( p.find('.score-dot-white').length ).toEqual( 3 );
     })
 
 });

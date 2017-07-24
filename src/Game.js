@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { fromJS } from 'immutable';
 import './Game.css';
 
+import score from './score';
+
 class Game extends Component {
   static get namespace(){
     return 'mastermind-game';
@@ -33,7 +35,11 @@ class Game extends Component {
         // here calculate the score
         // push it along withe guess to .guesses
         // ( could render score, no need to duplicate calculation! )
-        state.set('guess', fromJS([ 0, 0, 0, 0 ]) ),
+        state.update('guesses', guesses => guesses.push( fromJS({
+          code: state.get('guess'),
+          score: fromJS( score( state.get('code'), state.get('guess') ) ),
+        }) )
+        ).set('guess', fromJS([ 0, 0, 0, 0 ]) )
     };
   }
 
@@ -56,19 +62,35 @@ class Game extends Component {
         </div>
         
         <div className="Game-board">
-          <ul>
-            {
-              guesses.map( (guess, gi)=> (
-                <li key={gi}>
+          {
+            guesses.map( (guess, gi)=> (
+              <div key={gi} className="Game-scored-guess">
+                {
+                  guess.get('code').map( (dot, di)=> (
+                    <div key={di+''+dot} className={`guessed-dot dot-${dot}`}></div>
+                  ) )
+                }
+                <div className="Game-row-score">
                   {
-                    guess.code.map( (dot, di)=> (
-                      <div key={di+''+dot} className={`guess-dot dot-${dot}`}></div>
+                    Array(guess.getIn(['score', 0])).fill(1).map( (o, bi)=> (
+                      <div key={bi} className="score-dot score-dot-black"></div>
                     ) )
                   }
-                </li>
-              ) )
-            }
-          </ul>
+                  {
+                    Array(guess.getIn(['score', 1])).fill(1).map( (o, bi)=> (
+                      <div key={bi} className="score-dot score-dot-pink"></div>
+                    ) )
+                  }
+                  {
+                    Array(4 - guess.getIn(['score', 0]) - guess.getIn(['score', 1]))
+                      .fill(1).map( (o, bi)=> (
+                        <div key={bi} className="score-dot score-dot-white"></div>
+                      ) )
+                  }
+                </div>
+              </div>
+            ) )
+          }
           
           <div className="Game-guess-row">
             {

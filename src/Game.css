@@ -10,9 +10,51 @@
 }
 
 
-.Game-guess-row {
+.Game-guess-row, .Game-scored-guess {
   display: flex;
   justify-content: space-around;
+}
+
+.Game-scored-guess {
+  margin: 15px 0;
+}
+
+.guess-button {
+  width: 10vw;
+}
+
+.Game-row-score {
+  min-width: 10vw;
+  display: flex;
+  justify-content: space-around;
+}
+
+.score-dot {
+  border-radius: 50%;
+  height: 0;
+  width: 0;
+
+  margin: 5px 0;
+}
+
+.score-dot-black {
+  border: 10px solid black;
+}
+
+.score-dot-pink {
+  border: 10px solid pink;
+}
+
+.score-dot-white {
+  border: 10px solid white;
+}
+
+.guessed-dot {
+  border-radius: 50%;
+  height: 0;
+  width: 0;
+
+  margin: 2.5px;
 }
 
 .guess-dot {
