@@ -17,9 +17,10 @@
 }
 
 .Game-guess-row, .Game-scored-guess {
+  display: -webkit-flex;
   display: flex;
-  -webkit-display: flex;
   -webkit-justify-content: space-around;
+  justify-content: space-around;
 }
 
 .Game-guess-row {
