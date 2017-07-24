@@ -9,19 +9,32 @@
   color: white;
 }
 
+.Game-board {
+  height: 70vh;
+  overflow-y: scroll;
+
+  padding-bottom: 80px;
+}
 
 .Game-guess-row, .Game-scored-guess {
   display: flex;
   justify-content: space-around;
 }
 
+.Game-guess-row {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  background-color: white;
+  border-top: 2px inset black;
+}
+
 .Game-scored-guess {
   margin: 15px 0;
 }
 
-.guess-button {
-  width: 10vw;
-}
 
 .Game-row-score {
   min-width: 10vw;

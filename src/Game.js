@@ -75,7 +75,7 @@ class Game extends Component {
         
         <div className="Game-board">
           {
-            guesses.map( (guess, gi)=> (
+            guesses.reverse().map( (guess, gi)=> (
               <div key={gi} className="Game-scored-guess">
                 {
                   guess.get('code').map( (dot, di)=> (
@@ -103,25 +103,25 @@ class Game extends Component {
               </div>
             ) )
           }
-          
-          <div className="Game-guess-row">
-            {
-              guess.map( (dot, i)=> (
-                <div className="guess-col" key={i}>
-                  <button onClick={()=> this.props.incGuessDot(i)}>
-                    <i>▲</i>
-                  </button>
-                  <div key={i+''+dot} className={`guess-dot dot-${dot}`}></div>
-                  <button onClick={()=> this.props.decGuessDot(i)}>
-                    <i>▼</i>
-                  </button>
-                </div>
-              ) )
-            }
-            <button className="guess-button" onClick={this.props.guess}>
-              Guess!
-            </button>
-          </div>
+        </div>
+
+        <div className="Game-guess-row">
+          {
+            guess.map( (dot, i)=> (
+              <div className="guess-col" key={i}>
+                <button onClick={()=> this.props.incGuessDot(i)}>
+                  <i>▲</i>
+                </button>
+                <div key={i+''+dot} className={`guess-dot dot-${dot}`}></div>
+                <button onClick={()=> this.props.decGuessDot(i)}>
+                  <i>▼</i>
+                </button>
+              </div>
+            ) )
+          }
+          <button className="guess-button" onClick={this.props.guess}>
+            Guess!
+          </button>
         </div>
       </div>
     );
