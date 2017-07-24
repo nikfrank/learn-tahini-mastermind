@@ -156,6 +156,9 @@ it('user can guess as he pleases', () => {
       expect( state.guesses.length ).toEqual( 1 );
       expect( state.guesses[0].code ).toEqual( [ 5, 0, 0, 0 ] );
       expect( state.guesses[0].score ).toEqual( [ 0, 1 ] ); // code is [ 0, 1, 2, 3 ]
+
+      expect( p.find('.scored-guess').length ).toEqual( 1 );
     })
+
 });
 
