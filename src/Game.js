@@ -41,11 +41,13 @@ class Game extends Component {
     return fromJS({
       code: [ 0, 2, 1, 3 ],
       guess: [ 0, 0, 0, 0 ],
+      guesses: [],
     });
   }
   
   render() {
     const guess = this.props.subState.get('guess');
+    const guesses = this.props.subState.get('guesses', []);
     
     return (
       <div className="Game">
@@ -54,6 +56,20 @@ class Game extends Component {
         </div>
         
         <div className="Game-board">
+          <ul>
+            {
+              guesses.map( (guess, gi)=> (
+                <li key={gi}>
+                  {
+                    guess.code.map( (dot, di)=> (
+                      <div key={di+''+dot} className={`guess-dot dot-${dot}`}></div>
+                    ) )
+                  }
+                </li>
+              ) )
+            }
+          </ul>
+          
           <div className="Game-guess-row">
             {
               guess.map( (dot, i)=> (
