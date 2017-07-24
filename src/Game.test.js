@@ -13,12 +13,16 @@ import {
 } from 'tahini';
 
 
+const codeGen = ()=> [ 0, 2, 1, 3 ];
+
 it('renders the current guess', () => {
   const state = fromJS({
     guess: [ 2, 3, 4, 5 ]
   });
 
-  const p = mount(<Game subState={state}/>);
+  const p = mount(<Game subState={state}
+                        setCode={jest.fn()}
+                        randomCodeGenerator={codeGen}/>);
 
   const dots = p.find('.guess-dot');
   
@@ -37,6 +41,8 @@ it('provides up and down buttons for each dot', () => {
   const decGuessDot = jest.fn();
 
   const p = mount(<Game subState={state}
+                        setCode={jest.fn()}
+                        randomCodeGenerator={codeGen}
                         incGuessDot={incGuessDot}
                         decGuessDot={decGuessDot} />);
 
@@ -67,6 +73,8 @@ it('provides a guess button', () => {
   const guess = jest.fn();
 
   const p = mount(<Game subState={state}
+                        setCode={jest.fn()}
+                        randomCodeGenerator={codeGen}
                         guess={guess}/>);
 
   const guessButton = p.find('.guess-button');
@@ -88,7 +96,7 @@ it('user can set code to what he wants', () => {
   const dataPath = [];
   const GameD = getDevice(Game, dataPath, Game.initState);
 
-  const p = mount(<GameD />);
+  const p = mount(<GameD randomCodeGenerator={codeGen}/>);
 
   const state = appStore.getState();
 
@@ -128,7 +136,7 @@ it('user can guess as he pleases', () => {
   const dataPath = [];
   const GameD = getDevice(Game, dataPath, Game.initState);
 
-  const p = mount(<GameD />);
+  const p = mount(<GameD randomCodeGenerator={codeGen}/>);
 
   const state = appStore.getState();
 

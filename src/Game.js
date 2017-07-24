@@ -22,6 +22,11 @@ class Game extends Component {
       }),
 
       guess: ()=> ({ type: 'guess' }),
+
+      setCode: code => ({
+        type: 'setCode',
+        payload: { code },
+      }),
     };
   }
 
@@ -39,16 +44,23 @@ class Game extends Component {
           code: state.get('guess'),
           score: fromJS( score( state.get('code'), state.get('guess') ) ),
         }) )
-        ).set('guess', fromJS([ 0, 0, 0, 0 ]) )
+        ).set('guess', fromJS([ 0, 0, 0, 0 ]) ),
+
+      setCode: (state, { payload })=>
+        state.set('code', fromJS( payload.code ) ),
     };
   }
 
   static get initState(){
     return fromJS({
-      code: [ 0, 2, 1, 3 ],
+      code: [],
       guess: [ 0, 0, 0, 0 ],
       guesses: [],
     });
+  }
+
+  componentDidMount(){
+    this.props.setCode( this.props.randomCodeGenerator() );
   }
   
   render() {
