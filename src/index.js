@@ -8,7 +8,9 @@ import { bootApp } from 'tahini';
 
 const TahiniGame = bootApp().getDevice(Game, [], Game.initState);
 
+const randomCode = ()=> [ 1, 2, 3, 4 ].map( o=> Math.floor( Math.random()*6 ) );
+
 ReactDOM.render(
-  <TahiniGame />,
+  <TahiniGame randomCodeGenerator={randomCode} />,
   document.getElementById('root'));
 registerServiceWorker();

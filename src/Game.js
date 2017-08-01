@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { fromJS } from 'immutable';
 import './Game.css';
 
+import score from './score';
+
 class Game extends Component {
   static get namespace(){
     return 'mastermind-game';
@@ -20,6 +22,11 @@ class Game extends Component {
       }),
 
       guess: ()=> ({ type: 'guess' }),
+  
+      setCode: code => ({
+        type: 'setCode',
+        payload: { code },
+      }),
     };
   }
 
@@ -30,45 +37,96 @@ class Game extends Component {
           (dot + 6 + payload.diff) % 6 ),
 
       guess: (state)=>
-        state.set('guess', fromJS([ 0, 0, 0, 0 ]) ),
+        // here calculate the score
+        // push it along withe guess to .guesses
+        // ( could render score, no need to duplicate calculation! )
+        state.update('guesses', guesses => guesses.push( fromJS({
+          code: state.get('guess'),
+          score: fromJS( score( state.get('code'), state.get('guess') ) ),
+        }) )
+        ).set('guess', fromJS([ 0, 0, 0, 0 ]) ),
+
+      setCode: (state, { payload })=>
+        state.set('code', fromJS( payload.code ) )
+             .set('guesses', fromJS([])),
     };
   }
 
   static get initState(){
     return fromJS({
-      code: [ 0, 2, 1, 3 ],
+      code: [],
       guess: [ 0, 0, 0, 0 ],
+      guesses: [],
     });
+  }
+
+  componentDidMount(){
+    this.resetGame();
+  }
+
+  resetGame = ()=> {
+    this.props.setCode( this.props.randomCodeGenerator() );
   }
   
   render() {
     const guess = this.props.subState.get('guess');
+    const guesses = this.props.subState.get('guesses', []);
     
     return (
       <div className="Game">
-        <div className="Game-header">
+        <div className="Game-header" onClick={this.resetGame}>
           <h2>Mastermind Game</h2>
         </div>
         
         <div className="Game-board">
-          <div className="Game-guess-row">
-            {
-              guess.map( (dot, i)=> (
-                <div className="guess-col" key={i}>
-                  <button onClick={()=> this.props.incGuessDot(i)}>
-                    <i>▲</i>
-                  </button>
-                  <div key={i+''+dot} className={`guess-dot dot-${dot}`}></div>
-                  <button onClick={()=> this.props.decGuessDot(i)}>
-                    <i>▼</i>
-                  </button>
+          {
+            guesses.reverse().map( (guess, gi)=> (
+              <div key={gi} className="Game-scored-guess">
+                {
+                  guess.get('code').map( (dot, di)=> (
+                    <div key={di+''+dot} className={`guessed-dot dot-${dot}`}></div>
+                  ) )
+                }
+                <div className="Game-row-score">
+                  {
+                    Array(guess.getIn(['score', 0])).fill(1).map( (o, bi)=> (
+                      <div key={bi} className="score-dot score-dot-black"></div>
+                    ) )
+                  }
+                  {
+                    Array(guess.getIn(['score', 1])).fill(1).map( (o, bi)=> (
+                      <div key={bi} className="score-dot score-dot-pink"></div>
+                    ) )
+                  }
+                  {
+                    Array(4 - guess.getIn(['score', 0]) - guess.getIn(['score', 1]))
+                      .fill(1).map( (o, bi)=> (
+                        <div key={bi} className="score-dot score-dot-white"></div>
+                      ) )
+                  }
                 </div>
-              ) )
-            }
-            <button className="guess-button" onClick={this.props.guess}>
-              Guess!
-            </button>
-          </div>
+              </div>
+            ) )
+          }
+        </div>
+
+        <div className="Game-guess-row">
+          {
+            guess.map( (dot, i)=> (
+              <div className="guess-col" key={i}>
+                <button onClick={()=> this.props.incGuessDot(i)}>
+                  <i>▲</i>
+                </button>
+                <div key={i+''+dot} className={`guess-dot dot-${dot}`}></div>
+                <button onClick={()=> this.props.decGuessDot(i)}>
+                  <i>▼</i>
+                </button>
+              </div>
+            ) )
+          }
+          <button className="guess-button" onClick={this.props.guess}>
+            Guess!
+          </button>
         </div>
       </div>
     );
