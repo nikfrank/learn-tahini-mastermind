@@ -6,7 +6,7 @@ Here, we will use Dan Abramov's [create-react-app](https://www.npmjs.com/package
 
 ## code
 bash
-```js
+```bash
 # install create-react-app globally
 sudo npm i -g create-react-app
 
