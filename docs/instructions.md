@@ -75,3 +75,69 @@ registerServiceWorker();
 ```
 
 
+## branch
+# step-0-1 tahini boilderplate
+
+## instructions
+
+Now we'll apply Tahini to our view component
+
+and put the actions, reducer, namespace and initState
+
+
+## code
+./src/Component.js
+```js
+class App extends Component {
+  render(){
+    // ...
+  } 
+}
+
+```
+
+### solution-step
+
+## instructions
+
+these static getters will house our business logic
+
+## code
+./src/App.js
+```js
+import { fromJS } from 'immutable';
+
+class App extends Component {
+  static get namespace(){
+    return 'mastermind-game';
+  }
+
+  static get actions(){
+    return {};
+  }
+
+  static get reducer(){
+    return {};
+  }
+
+  static get initState(){
+    return fromJS({});
+  }
+
+  render(){
+    // ...
+  } 
+}
+```
+
+### solution-step
+
+## instructions
+
+we'll also need immutable (facebook's data lib)
+
+## code
+bash
+```bash
+yarn add immutable
+```
