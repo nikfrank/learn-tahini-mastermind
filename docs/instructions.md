@@ -76,7 +76,7 @@ registerServiceWorker();
 
 
 ## branch
-# step-0-1 tahini boilderplate
+# step-0-1 tahini boilerplate
 
 ## instructions
 
@@ -97,7 +97,7 @@ class App extends Component {
 ```
 
 ### solution-step
-
+boilerplate static getters
 ## instructions
 
 these static getters will house our business logic
@@ -131,7 +131,7 @@ class App extends Component {
 ```
 
 ### solution-step
-
+add immutableJS
 ## instructions
 
 we'll also need immutable (facebook's data lib)
