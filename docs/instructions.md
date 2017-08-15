@@ -3,7 +3,7 @@
 
 ## instructions
 
-Here, we will use Dan Abramov's [create-react-app](https://www.npmjs.com/package/create-react-app) to start a ReactJS application. From the command line:
+Here, we will use Dan Abramov's [create-react-app](https://www.npmjs.com/package/create-react-app) to start a ReactJS application. From the [command line](http://lmgtfy.com/?q=open+command+line):
 
 ## code
 bash
@@ -91,7 +91,7 @@ and put the actions, reducer, namespace and initState
 class App extends Component {
   render(){
     // ...
-  } 
+  }
 }
 
 ```
@@ -126,7 +126,7 @@ class App extends Component {
 
   render(){
     // ...
-  } 
+  }
 }
 ```
 
