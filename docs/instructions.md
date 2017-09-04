@@ -553,16 +553,6 @@ The way I like to understand reducers is "it's like this (state), something is h
 
 We will have a couple reducers for each component, maybe more, maybe less.
 
-
-### Actions
-
-The action object represents the "whatever we're doing right now" which is usually handling some event from a user, or sometimes getting data from a server. The important two fields on an action object are:
-
-- type: this is a string which tells Redux which Reducer function to use; usually the name will have a verb and a noun like: 'toggleItem', 'dealCards', 'setCurrentUser'
-
-- payload: this is the value or values we'll need to compute the change. The payload will have all of the "variables" we need, ie: if the type is 'setPassword', the payload will usually be something like ```{ password: 'youllneverguessthis' }``` 
-
-
 ---
 
 
@@ -574,7 +564,7 @@ In the payload, we'll send a ```dotIndex``` to tell our reducer which dot we're 
 I'm using a new feature of JavaScript ES6 called DESTRUCTURING. [here's a link to some docs about it](http://www.jstips.co/en/javascript/use-destructuring-in-function-parameters/) - the point is we can take the part of an input parameter we're interested in right into a variable without wasting lines of code. Here, we care about action.payload, but nothing else from the action.
 
 
-the state is an immutable object (as mentioned in step-1-1), so to calculate an new state, we'll use the [updateIn function](https://facebook.github.io/immutable-js/docs/#/Map/updateIn) to get the old value of the dot, then increment it or decrement it ( + payload.diff ) then make sure it's in our range of allowed dots values [ 0-5 ] ( by doing +6, then later %6 ) then return a new state withe new value within it.
+the state is an immutable object (as mentioned in step-1-1), so to calculate an new state, we'll use the [updateIn function](https://facebook.github.io/immutable-js/docs/#/Map/updateIn) to get the old value of the dot, then increment it or decrement it ( + payload.diff ) then make sure it's in our range of allowed dots values [ 0-5 ] ( by doing +6, then later %6 ) then return a new state withe new value set within it.
 
 
 
@@ -592,22 +582,89 @@ the state is an immutable object (as mentioned in step-1-1), so to calculate an 
 //...
 ```
 
+
+
+
 ### solution-step
-Step Header
+ACTIONS
 ## instructions
 
-some markdown
+### Actions
+
+The action object represents the "whatever we're doing right now" which is usually handling some event from a user, or sometimes getting data from a server. The important two fields on an action object are:
+
+- type: this is a string which tells Redux which Reducer function to use; usually the name will have a verb and a noun like: 'toggleItem', 'dealCards', 'setCurrentUser'
+
+- payload: this is the value or values we'll need to compute the change. The payload will have all of the "variables" we need, ie: if the type is 'setPassword', the payload will usually be something like ```{ password: 'youllneverguessthis' }``` 
+
+The two actions we define here both call the same REDUCER - 'changeGuessDot', sending it a +1 diff or a -1 diff based on whether we pressed the up button or the down button.
+
+Both ActionCreator functions make an action with a ```dotIndex``` value which describes which dot we want to change.
 
 ## code
-bash
-```bash
+./src/Game.js
+```js
+//...
+  static get actions(){
+    return {
+      incGuessDot: (dotIndex) => ({
+        type: 'changeGuessDot',
+        payload: { dotIndex, diff: 1 },
+      }),
+      
+      decGuessDot: (dotIndex) => ({
+        type: 'changeGuessDot',
+        payload: { dotIndex, diff: -1 },
+      }),
+    };
+  }
+//...
 ```
 
 
 
 
+### solution-step
+Key Point - REDUCERs and ACTIONs
+## instructions
+
+Once you're comfortable with REDUCERs and ACTIONS, you'll be able to do just about whatever you want in your application.
+
+ACTION is doing something
+
+REDUCER is how to do it
+
+ActionCreator is a function we bind to our Elements for users to trigger with events like "onClick" for selecting something or "onSwipeLeft" for rejecting someone.
 
 
+### solution-step
+Action Creator functions
+## instructions
+
+Here, we bind the ActionCreator function to the buttons.
+
+We're using the [fat arrow](http://wesbos.com/arrow-functions/) notation from ES6 to pass the correct dotIndex value to the function
+
+
+## code
+./src/Game.js
+```js
+//...
+{
+  guess.map( (dot, i)=> (
+    <div className="guess-col" key={i}>
+      <button onClick={()=> this.props.incGuessDot(i)}>
+        <i>▲</i>
+      </button>
+      <div key={i+''+dot} className={`guess-dot dot-${dot}`}></div>
+      <button onClick={()=> this.props.decGuessDot(i)}>
+        <i>▼</i>
+      </button>
+    </div>
+  ) )
+}
+//...
+```
 
 
 ## branch
