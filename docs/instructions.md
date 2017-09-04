@@ -296,6 +296,13 @@ You'll notice of course that our game is now always played against the same code
 This is the easiest way to develop the game (because it is pure behaviour) - later we'll replace this with an impure code generator (random is a form of impurity)
 
 
+A very important thing to learn here is fromJS :: which is a frunctino we import from the 'immutable' npm module (courtesy facebook).
+
+- normal Plain Ol Javascript Objects (POJOs) are "mutable", ie we can change them whenever we want. This is great, because we're free to do anything, but it's not great, because it makes it hard to know when things change.
+
+- [immutableJS](https://facebook.github.io/immutable-js/docs/#/) lets us make objects that cant change. When we want to change something, we'll make an entirely new object to replace it with. This is the way of "pure functional programming", as pposed to "side effect programming".
+
+- fromJS is a function, which takes a mutable POJO, and returns to us an immutable version thereof. Calling it looks like ```const immutableObject = fromJS( { key: 'value' }  );```
 
 
 ## branch
@@ -432,27 +439,90 @@ Now that our dots are nice and colourful, we can get rid of the numbers from bef
 
 
 ## branch
-# step-1-0 starting redux
+# step-1-4 buttons for guessing
 
 ## instructions
 
-some markdown here
+Now that we can display the guess with nicely coloured dots, we're going to need to allow the user to change her guess!
+
+Let's make some stylish buttons for the player to press
 
 
 ## code
-./src/filename.js
-```js
+./src/Game.css
+```css
+/* ... */
+
+.guess-dot {
+  border-radius: 50%;
+  height: 0;
+  width: 0;
+
+  margin: auto;
+}
+
+/* ... */
+
+.guess-col button {
+  border-radius: 25%;
+  border: 2px outset grey;
+  background-color: white;
+
+  margin: 3px;
+}
+
+.guess-col button:active i {
+  display: inline-block;
+  transform: translate( 0.75px, 0.75px );
+}
+
+.guess-col button:active {
+  border-style: inset;
+}
+
+.guess-col button:focus {
+  outline: none;
+}
 ```
 
 ### solution-step
-Step Header
+Aaaaaaand the JSX
 ## instructions
 
-some markdown
+Besides for styling the buttons, we should make them no?
+
+I've used some Unicode triangles here, just for fun
 
 ## code
-bash
-```bash
+./src/Game.js
+```js
+//...
+  render() {
+    const guess = this.props.subState.get('guess');
+    
+    return (
+      <div className="Game">
+        <div className="Game-header">
+          <h2>Mastermind Game</h2>
+        </div>
+        
+        <div className="Game-board">
+          <div className="Game-guess-row">
+            {
+              guess.map( (dot, i)=> (
+                <div className="guess-col">
+                  <button> <i>▲</i> </button>
+                  <div key={i+''+dot} className={`guess-dot dot-${dot}`}></div>
+                  <button> <i>▼</i> </button>
+                </div>
+              ) )
+            }
+          </div>
+        </div>
+      </div>
+    );
+  }
+//...
 ```
 
 
@@ -463,16 +533,63 @@ bash
 
 
 ## branch
-# step-1-0 starting redux
+# step-1-5 Actions and Reducers (the REDUX way)
 
 ## instructions
 
-some markdown here
+### Reducers
+
+These are the functions we use to mutate our state. They are the ONLY way the state EVER changes! EVER! ... NO OTHER WAY!
+
+--> They are the answer to the questions "how did that change?" and "how do I get that to change?"
+
+[here](http://redux.js.org/docs/basics/Reducers.html) is the Redux docs about reducers. Dan Abramov (author of Redux, and good fellow) opines that the state should be treated like a database. I disagree withim on this in some cases, but for what we're learning right now, we can do what Dan would do.
+
+The technical definition is: A reducer is a function who takes the current state and the action object, then returns the next state of our application. We leave it up to Redux to actually change the state and trigger the render flow (front end changes) - all we have to do in this function is describe how to mutate the state. (we'll cover actions in the next section)
+
+Reducers look like this: (state, action)=> nuState;
+
+The way I like to understand reducers is "it's like this (state), something is happening (action); so then it ended up like this (nuState). 
+
+We will have a couple reducers for each component, maybe more, maybe less.
+
+
+### Actions
+
+The action object represents the "whatever we're doing right now" which is usually handling some event from a user, or sometimes getting data from a server. The important two fields on an action object are:
+
+- type: this is a string which tells Redux which Reducer function to use; usually the name will have a verb and a noun like: 'toggleItem', 'dealCards', 'setCurrentUser'
+
+- payload: this is the value or values we'll need to compute the change. The payload will have all of the "variables" we need, ie: if the type is 'setPassword', the payload will usually be something like ```{ password: 'youllneverguessthis' }``` 
+
+
+---
+
+
+The reducer we need here is one that changes one of the dots up or down based on the data we send via the payload
+
+In the payload, we'll send a ```dotIndex``` to tell our reducer which dot we're changing and a ```diff``` to explain which direction (up/dn) we're changing it (+1 / -1)
+
+
+I'm using a new feature of JavaScript ES6 called DESTRUCTURING. [here's a link to some docs about it](http://www.jstips.co/en/javascript/use-destructuring-in-function-parameters/) - the point is we can take the part of an input parameter we're interested in right into a variable without wasting lines of code. Here, we care about action.payload, but nothing else from the action.
+
+
+the state is an immutable object (as mentioned in step-1-1), so to calculate an new state, we'll use the [updateIn function](https://facebook.github.io/immutable-js/docs/#/Map/updateIn) to get the old value of the dot, then increment it or decrement it ( + payload.diff ) then make sure it's in our range of allowed dots values [ 0-5 ] ( by doing +6, then later %6 ) then return a new state withe new value within it.
+
 
 
 ## code
-./src/filename.js
+./src/Game.js
 ```js
+// ...
+  static get reducer(){
+    return {
+      changeGuessDot: (state, { payload })=>
+        state.updateIn(['guess', payload.dotIndex], dot=>
+          (dot + 6 + payload.diff) % 6 ),
+    };
+  }
+//...
 ```
 
 ### solution-step
