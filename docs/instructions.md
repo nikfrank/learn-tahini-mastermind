@@ -748,7 +748,7 @@ bash
 yarn add enzyme
 
 # or with npm
-npm i -S enzyme
+npm i -D enzyme
 ```
 
 
@@ -759,32 +759,76 @@ npm i -S enzyme
 
 
 ## branch
-# step-2-1 Our first test
+# step-2-1 Our first test - set up
 
 ## instructions
 
-some markdown here
+So first we'll need to mount our Game component with an initial state
 
 
 ## code
-./src/filename.js
+./src/Game.test.js
 ```js
+//...
+
+it('renders the current guess', () => {
+  const state = fromJS({
+    guess: [ 2, 3, 4, 5 ]
+  });
+
+  const p = mount(<Game subState={state}/>);
+});
+
+//...
 ```
 
 ### solution-step
-Step Header
+Check results
 ## instructions
 
-some markdown
+Now our test mounts the component, we should actually check that it renders correctly
+
+Here we'll use ```enzyme```'s ```.find``` function - which allows us to select sub-elements with a CSS selector.
+
+Then for each dot in the state, we will check that the rendered dot div has the correct className rendered.
+
+```expect``` is a function ```jest``` gives us which let's us fail the test if two values don't match
+
+[Read their docs](https://facebook.github.io/jest/docs/en/getting-started.html) to learn about it!
+
+## code
+./src/Game.test.js
+```js
+//...
+
+it('renders the current guess', () => {
+  const state = fromJS({
+    guess: [ 2, 3, 4, 5 ]
+  });
+
+  const p = mount(<Game subState={state}/>);
+
+  const dots = p.find('.guess-dot');
+  
+  state.get('guess').forEach( (dot, i)=>
+    expect( dots.at(i).hasClass('dot-'+dot) ).toEqual(true)
+  );
+});
+
+//...
+```
+
+### solution-step
+Running the test
+## instructions
+
+We have an npm script to run the tests for us - pretty easy
 
 ## code
 bash
 ```bash
+npm run test
 ```
-
-
-
-
 
 
 
