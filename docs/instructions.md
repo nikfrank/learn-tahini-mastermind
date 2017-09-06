@@ -41,6 +41,22 @@ npm start
 
 Tahini is a wonderful framework for using React and Redux together easily
 
+Let's download it
+
+## code
+bash
+```bash
+yarn add tahini
+
+# or if you don't have yarn
+npm i -S tahini
+```
+
+
+### solution-step
+The App Component
+## instructions
+
 We'll start in ```./src/index.js```
 
 
@@ -58,7 +74,7 @@ registerServiceWorker();
 ```
 
 ### solution-step
-
+Putting Tahini on the App Component
 ## instructions
 
 There's a lot of magic in these three lines of code.
