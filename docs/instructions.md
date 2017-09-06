@@ -668,27 +668,71 @@ We're using the [fat arrow](http://wesbos.com/arrow-functions/) notation from ES
 
 
 ## branch
-# step-1-0 starting redux
+# step-2-0 starting testing with enzyme
 
 ## instructions
 
-some markdown here
+This is a Test Driven Development course, so we'd better get to the meat of what is testing and how to do it.
+
+### What is a test?
+
+A test is some code that runs your program code for some input cases, then checks that the output is correct for each.
+
+### How do we do it?
+
+In our case, we will be using enzyme to simulate mounting a component (the props we pass in are our inputs for the test), the output we'll test is the rendered elements.
+
+Later we'll also pass mock functions in place of the action creator function props, we will simulate user behaviour (clicking or typing), and check that the action creator functions are called withe correct values.
+
+Later still we'll mount a tahini-wrapped component, simulate user behaviour, then check that the component's redux state has undergone the mutations we expect.
+
+
+### huh?
+
+ok - all we're doing right now is importing our dependencies and making some boilerplate test cases to fill in later
+
+```it``` is a function we get from ```jest``` which allows us to name a test, and define a function which when run tests our code.
+
+We'll be filling these in over the next couple sections.
 
 
 ## code
-./src/filename.js
+./src/Game.test.js
 ```js
+import React from 'react';
+import Game from './Game';
+
+import { mount } from 'enzyme';
+import { fromJS } from 'immutable';
+
+it('renders the current guess', () => {
+
+});
+
+
+it('provides up and down buttons for each dot', () => {
+  
+});
+
+
+it('user can set code to what he wants', () => {
+  
+});
 ```
 
 ### solution-step
-Step Header
+Installing enzyme
 ## instructions
 
-some markdown
+as always, we'll need to install our dependencies from bash
 
 ## code
 bash
 ```bash
+yarn add enzyme
+
+# or with npm
+npm i -S enzyme
 ```
 
 
@@ -699,7 +743,7 @@ bash
 
 
 ## branch
-# step-1-0 starting redux
+# step-2-1 Our first test
 
 ## instructions
 
