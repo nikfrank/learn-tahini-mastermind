@@ -607,7 +607,7 @@ const nestedStateExample = {
 };
 ```
 
-but, as you can see, this can lead to duplication, which can lead to other problems if we aren't careful.
+but, as you can see, this can lead to duplication, which can lead to other problems (inconsistencies usually) if we aren't careful.
 
 For what we're learning right now, we can do what Dan would do. Also, you'll see things done Dan's way more often in the industry.
 
