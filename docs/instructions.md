@@ -682,7 +682,9 @@ The action object represents the "whatever we're doing right now" which is usual
 
 The two actions we define here both lead to the same REDUCER - 'changeGuessDot', sending it a +1 diff or a -1 diff based on whether we pressed the up button or the down button.
 
-Both ActionCreator functions make an action with a ```dotIndex``` value which describes which dot we want to change.
+Both ActionCreator functions return an action with a ```.dotIndex``` and ```.diff``` value inside the ```.payload``` which describes which dot we want to change.
+
+Together, tahini, Redux, and React will take these functions we write and turn them into the function we bind to the actual DOM element which triggers the changes and downstream rendering (and also do that binding). That is to say, we don't have to worry about anything beyond writing a function who returns the Action we want to get to the Reducer to be able to compute the next state with.
 
 I'm using a new shortcut notation for POJOs from ES6, ```{ dotIndex }``` is really ```{ dotIndex: dotIndex }```
 
