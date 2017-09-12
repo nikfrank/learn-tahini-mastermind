@@ -680,7 +680,7 @@ The action object represents the "whatever we're doing right now" which is usual
 
 - payload: this is the value or values we'll need to compute the change. The payload will have all of the "variables" we need, ie: if the type is 'setPassword', the payload will usually be something like ```{ password: 'youllneverguessthis' }``` 
 
-The two actions we define here both call the same REDUCER - 'changeGuessDot', sending it a +1 diff or a -1 diff based on whether we pressed the up button or the down button.
+The two actions we define here both lead to the same REDUCER - 'changeGuessDot', sending it a +1 diff or a -1 diff based on whether we pressed the up button or the down button.
 
 Both ActionCreator functions make an action with a ```dotIndex``` value which describes which dot we want to change.
 
