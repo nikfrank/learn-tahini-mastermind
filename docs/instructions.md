@@ -568,10 +568,10 @@ In short, Redux keeps our application's state for us - and makes sure all change
 
 The state is just a single object which holds all the values for everything in our app that might ever change. Some apps use a POJO as a state object, our app uses an immutable object. Both are allowed, so for this blurb I'll write POJOs, as it's pretty easy to imagine them as immutable.
 
-Dan Abramov (author of Redux, and good fellow) opines that the state should be organized like a database, with different fields on the top level state each valued a single type of entity - and relationships indicated by index.
+Dan Abramov (author of Redux, and good fellow) opines that the state should be organized like a database, with different fields on the top level state each valued a single type of entity - and relationships indicated by index-pointer.
 
 ```
-const abramovStateExample = {
+const flatStateExample = {
   devs: [
     { id: 12114, name: 'nik frank', locale: 'en-CA' },
     { id: 74107, name: 'nox freebird', locale: 'en-UK' },
