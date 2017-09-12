@@ -791,11 +791,11 @@ The second param to the reducer is still the action, we just automatically pull 
 Debugging reducers
 ## instructions
 
-Often, we don't know what's going on. So it's nice to get a ```console.log``` statement in so we can figure it out
+Often, we don't know what's going on. So it's nice to get a ```console.log``` statement going to look at the values and figure it out
 
-With reducers, I usually use a cheeky JS tactic to sneak one in without changing the outcome or needing to switch my one line fat arrow function ```(state, action)=> nuState``` to a bodied function ```(state, action)=> { console.log(state.toJS(), action); return nuState; }```
+With reducers, I usually use a cheeky JS tactic to sneak one in without changing the outcome or needing to switch my one line arrow function ```(state, action)=> nuState``` to a bodied function ```(state, action)=> { console.log(state.toJS(), action); return nuState; }```
 
-The ```console.log``` always returns ```undefined```, so we get our values logged, then the || or operator will evaluate to the original expression on his right side (on the next line here).
+The ```console.log``` logs values and then returns ```undefined```, so we get our values logged, then the || or operator will evaluate to whatever expression is on his right side (ie the original one line reducer... on the next line here... he does this because ```undefined``` is "falsy")
 
 Nifty trick eh?
 
