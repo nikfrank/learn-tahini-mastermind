@@ -643,7 +643,13 @@ The reducer we need here is one that changes one of the dots up or down based on
 In the ```.payload```, we'll send a ```.dotIndex``` to tell our reducer which dot we're changing and a ```.diff``` to explain which direction (up/dn) we're changing it (+1 / -1)
 
 
-the state is an immutable object (as mentioned in step-1-1), so to calculate an new state, we'll use the [updateIn function](https://facebook.github.io/immutable-js/docs/#/Map/updateIn) to get the old value of the dot, then increment it or decrement it ( ```+ action.payload.diff``` ) then make sure it's in our range of allowed dots values 0 to 5 by doing ```+ 6```, then later ```% 6``` ) then return a new state withe new value set within it.
+the state is an immutable object (as mentioned in step-1-1), so to calculate a new state, we'll use the [updateIn function](https://facebook.github.io/immutable-js/docs/#/Map/updateIn) to get the old value of the dot, then increment it or decrement it ( ```+ action.payload.diff``` )
+
+then we'll make sure it's in our range of allowed dot values 0 to 5 by doing ```+ 6```, then later ```% 6``` 
+
+the ```updateIn``` function returns a new immutable object withe new value set within it.
+
+(we never changed the state, we made a new one and gave it to Redux to keep track of)
 
 
 
