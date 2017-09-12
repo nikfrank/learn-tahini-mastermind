@@ -682,7 +682,7 @@ The action object represents the "whatever we're doing right now" which is usual
 
 The two actions we define here both lead to the same REDUCER - 'changeGuessDot', sending it a +1 diff or a -1 diff based on whether we pressed the up button or the down button.
 
-Both ActionCreator functions return an action with a ```.dotIndex``` and ```.diff``` value inside the ```.payload``` which describes which dot we want to change.
+Both ActionCreator functions return an action with a ```.dotIndex``` and ```.diff``` value inside the ```.payload``` which describes which dot we want to change and how to change it.
 
 Together, tahini, Redux, and React will take these functions we write and turn them into the function we bind to the actual DOM element which triggers the changes and downstream rendering (and also do that binding). That is to say, we don't have to worry about anything beyond writing a function who returns the Action we want to get to the Reducer to be able to compute the next state with.
 
@@ -732,10 +732,12 @@ ActionCreators are functions we bind to our Elements for users to trigger with e
 - ```onClick``` to trigger an action like ```{ type: 'selectItem', payload: itemIndex }```
 - ```onSwipeLeft``` for an action like ```{ type: 'rejectOption', payload: optionId }```
 
+The Action Creator functions we write go through a couple of [decorations](http://dealwithjs.io/design-patterns-decorating-in-javascript/) behind the scenes and end up on ```this.props.whateverWeNamedEachActionCreator``` for us to use in ```render()```
+
 
 Here, we bind the ActionCreator functions for changing a dot up or down to each button.
 
-We're using the [fat arrow](http://wesbos.com/arrow-functions/) notation from ES6 to pass the correct dotIndex value to the function, so each button will trigger changes to the correct dot. (remember that all the JSX inside of the ```.map``` function is repeated for every dot in guess)
+We're using the [fat arrow](http://wesbos.com/arrow-functions/) notation from ES6 to pass the correct ```dotIndex``` value to the function, so each button will trigger changes to the correct dot. (remember that all the JSX inside of the ```.map``` function is repeated for every dot in our guess array)
 
 Your guessmaker should work now! The next two topics are extra coding tactics, which (like Zelda side quests) will make you stronger, but don't really drive the plot forward :D
 
