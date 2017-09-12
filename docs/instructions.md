@@ -623,15 +623,17 @@ These are the functions we use to mutate our state. They are the ONLY way the st
 Because reducers are the only way the state can change, it makes it easy to reason about bugs (eg. why is there an extra item in this list? hmm... let's check that the reducer is filtering them correctly)
 
 
-The technical definition is: A reducer is a function who takes the current state and the action object, then returns the next state of our application. We hand the new state to Redux and leave him in charge of keeping track of it and triggering the render flow (front end changes) - all we have to do in this function is describe how to mutate the state.
+The technical definition is: A reducer is a function who takes the current state and the action object, then returns the next state of our application.
 
-Reducers look like this: (state, action)=> nuState;
+We hand the new state to Redux and leave him in charge of keeping track of it and triggering the render flow (front end changes) - all we have to do in this function is describe how to mutate the state.
 
-The way I like to understand reducers is "it's like this (state), something is happening (action); so then it ended up like this (nuState). 
+Reducers look like this: (state, action)=> nuState
+
+The way I like to understand reducers is "it's like this now (state), something is happening (action); so then it's gonna end up like this (nuState). 
 
 We will have a couple reducers for each component, maybe more, maybe less.
 
-We'll cover actions in the next section - all they are is POJOs with a certain format.
+We'll cover actions in the next section - all they are is a POJO with a certain format.
 
 ---
 
