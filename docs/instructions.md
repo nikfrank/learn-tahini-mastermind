@@ -559,7 +559,7 @@ You might want to put icons or SVGs there instead.
 
 ### Redux
 
-[Here](http://redux.js.org/docs/basics/Reducers.html) is the Redux docs about reducers.
+[Here](http://redux.js.org/docs/basics/Reducers.html) is the Redux docs page about reducers.
 
 In short, Redux keeps our application's state for us - and makes sure all changes to it are easy to reason about.
 
