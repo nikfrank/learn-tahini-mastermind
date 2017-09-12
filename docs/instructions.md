@@ -116,7 +116,7 @@ and put the actions, reducer, namespace and initState
 
 
 ## code
-./src/Component.js
+./src/App.js
 ```js
 class App extends Component {
   render(){
@@ -289,7 +289,7 @@ In mastermind, we can represent the various colours in the code the player will 
 We'll need a place to store the code and the guess.
 
 ## code
-./src/index.js
+./src/Game.js
 ```js
 //...
 
