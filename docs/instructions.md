@@ -5,6 +5,8 @@
 
 Here, we will use Dan Abramov's [create-react-app](https://www.npmjs.com/package/create-react-app) to start a ReactJS application. From the [command line](http://lmgtfy.com/?q=open+command+line):
 
+If chrome gives you problems with https security, [click here to pull up the chrome localhost security flag](chrome://flags/#allow-insecure-localhost) set it to enable insecure resources from localhost (to allow your app to load).
+
 ## code
 bash
 ```bash
@@ -507,7 +509,9 @@ Aaaaaaand the JSX
 
 Besides for styling the buttons, we should make them no?
 
-I've used some Unicode triangles here, just for fun
+I've used some Unicode triangles here as text in my buttons, just for fun!
+
+You might want to put icons or SVGs there instead.
 
 ## code
 ./src/Game.js
@@ -553,15 +557,73 @@ I've used some Unicode triangles here, just for fun
 
 ## instructions
 
-### Reducers
+### Redux
+
+[Here](http://redux.js.org/docs/basics/Reducers.html) is the Redux docs about reducers.
+
+In short, Redux keeps our application's state for us - and makes sure all changes to it are easy to reason about.
+
+
+#### State
+
+The state is just a single object which holds all the values for everything in our app that might ever change. Some apps use a POJO as a state object, our app uses an immutable object. Both are allowed, so for this blurb I'll write POJOs, as it's pretty easy to imagine them as immutable.
+
+Dan Abramov (author of Redux, and good fellow) opines that the state should be organized like a database, with different fields on the top level state each valued a single type of entity - and relationships indicated by index.
+
+```
+const abramovStateExample = {
+  devs: [
+    { id: 12114, name: 'nik frank', locale: 'en-CA' },
+    { id: 74107, name: 'nox freebird', locale: 'en-UK' },
+  ],
+  
+  apps: [
+    { id: 13, name: 'Spaghetti Timer', owner: 12114 },
+    { id: 512, name: 'Bike Keeper', owner: 12114 },
+    { id: 801, name: 'Tea of the Day', owner: 74107 },
+  ],
+};
+```
+
+
+In some cases though it can be easier to keep some of the data nested for faster access.
+
+Here's the same data presented in a nested format.
+
+
+```
+const nestedStateExample = {
+  apps: [
+    { id: 13, name: 'Spaghetti Timer',
+      owner: { id: 12114, name: 'nik frank', locale: 'en-CA' },
+    },
+    { id: 512, name: 'Bike Keeper',
+      owner: { id: 12114, name: 'nik frank', locale: 'en-CA' },
+    },
+    { id: 801, name: 'Tea of the Day',
+      owner: { id: 74107, name: 'nox freebird', locale: 'en-UK' },
+    },
+  ],
+};
+```
+
+but, as you can see, this can lead to duplication, which can lead to other problems if we aren't careful.
+
+For what we're learning right now, we can do what Dan would do. Also, you'll see things done Dan's way more often in the industry.
+
+We saw earlier how to set our initial state with tahini, and how to read it in ```render()```
+
+
+#### Reducers
 
 These are the functions we use to mutate our state. They are the ONLY way the state EVER changes! EVER! ... NO OTHER WAY!
 
 --> They are the answer to the questions "how did that change?" and "how do I get that to change?"
 
-[here](http://redux.js.org/docs/basics/Reducers.html) is the Redux docs about reducers. Dan Abramov (author of Redux, and good fellow) opines that the state should be treated like a database. I disagree withim on this in some cases, but for what we're learning right now, we can do what Dan would do.
+Because reducers are the only way the state can change, it makes it easy to reason about bugs (eg. why is there an extra item in this list? hmm... let's check that the reducer is filtering them correctly)
 
-The technical definition is: A reducer is a function who takes the current state and the action object, then returns the next state of our application. We leave it up to Redux to actually change the state and trigger the render flow (front end changes) - all we have to do in this function is describe how to mutate the state. (we'll cover actions in the next section)
+
+The technical definition is: A reducer is a function who takes the current state and the action object, then returns the next state of our application. We hand the new state to Redux and leave him in charge of keeping track of it and triggering the render flow (front end changes) - all we have to do in this function is describe how to mutate the state.
 
 Reducers look like this: (state, action)=> nuState;
 
@@ -569,18 +631,17 @@ The way I like to understand reducers is "it's like this (state), something is h
 
 We will have a couple reducers for each component, maybe more, maybe less.
 
+We'll cover actions in the next section - all they are is POJOs with a certain format.
+
 ---
 
 
-The reducer we need here is one that changes one of the dots up or down based on the data we send via the payload
+The reducer we need here is one that changes one of the dots up or down based on the data we send via the action's ```.payload```
 
-In the payload, we'll send a ```dotIndex``` to tell our reducer which dot we're changing and a ```diff``` to explain which direction (up/dn) we're changing it (+1 / -1)
-
-
-I'm using a new feature of JavaScript ES6 called DESTRUCTURING. [here's a link to some docs about it](http://www.jstips.co/en/javascript/use-destructuring-in-function-parameters/) - the point is we can take the part of an input parameter we're interested in right into a variable without wasting lines of code. Here, we care about action.payload, but nothing else from the action.
+In the ```.payload```, we'll send a ```.dotIndex``` to tell our reducer which dot we're changing and a ```.diff``` to explain which direction (up/dn) we're changing it (+1 / -1)
 
 
-the state is an immutable object (as mentioned in step-1-1), so to calculate an new state, we'll use the [updateIn function](https://facebook.github.io/immutable-js/docs/#/Map/updateIn) to get the old value of the dot, then increment it or decrement it ( + payload.diff ) then make sure it's in our range of allowed dots values [ 0-5 ] ( by doing +6, then later %6 ) then return a new state withe new value set within it.
+the state is an immutable object (as mentioned in step-1-1), so to calculate an new state, we'll use the [updateIn function](https://facebook.github.io/immutable-js/docs/#/Map/updateIn) to get the old value of the dot, then increment it or decrement it ( ```+ action.payload.diff``` ) then make sure it's in our range of allowed dots values 0 to 5 by doing ```+ 6```, then later ```% 6``` ) then return a new state withe new value set within it.
 
 
 
@@ -590,9 +651,9 @@ the state is an immutable object (as mentioned in step-1-1), so to calculate an 
 // ...
   static get reducer(){
     return {
-      changeGuessDot: (state, { payload })=>
-        state.updateIn(['guess', payload.dotIndex], dot=>
-          (dot + 6 + payload.diff) % 6 ),
+      changeGuessDot: (state, action)=>
+        state.updateIn(['guess', action.payload.dotIndex], dot=>
+          (dot + 6 + action.payload.diff) % 6 ),
     };
   }
 //...
@@ -605,8 +666,6 @@ the state is an immutable object (as mentioned in step-1-1), so to calculate an 
 ACTIONS
 ## instructions
 
-### Actions
-
 The action object represents the "whatever we're doing right now" which is usually handling some event from a user, or sometimes getting data from a server. The important two fields on an action object are:
 
 - type: this is a string which tells Redux which Reducer function to use; usually the name will have a verb and a noun like: 'toggleItem', 'dealCards', 'setCurrentUser'
@@ -616,6 +675,8 @@ The action object represents the "whatever we're doing right now" which is usual
 The two actions we define here both call the same REDUCER - 'changeGuessDot', sending it a +1 diff or a -1 diff based on whether we pressed the up button or the down button.
 
 Both ActionCreator functions make an action with a ```dotIndex``` value which describes which dot we want to change.
+
+I'm using a new shortcut notation for POJOs from ES6, ```{ dotIndex }``` is really ```{ dotIndex: dotIndex }```
 
 ## code
 ./src/Game.js
@@ -646,20 +707,27 @@ Key Point - REDUCERs and ACTIONs
 
 Once you're comfortable with REDUCERs and ACTIONS, you'll be able to do just about whatever you want in your application.
 
-ACTION is doing something
+ACTION is something to do
 
 REDUCER is how to do it
 
-ActionCreator is a function we bind to our Elements for users to trigger with events like "onClick" for selecting something or "onSwipeLeft" for rejecting someone.
-
+next we'll cover how to use our actions and reducers by binding them to JSX elements
 
 ### solution-step
 Action Creator functions
 ## instructions
 
-Here, we bind the ActionCreator function to the buttons.
+ActionCreators are functions we bind to our Elements for users to trigger with events like
 
-We're using the [fat arrow](http://wesbos.com/arrow-functions/) notation from ES6 to pass the correct dotIndex value to the function
+- ```onClick``` to trigger an action like ```{ type: 'selectItem', payload: itemIndex }```
+- ```onSwipeLeft``` for an action like ```{ type: 'rejectOption', payload: optionId }```
+
+
+Here, we bind the ActionCreator functions for changing a dot up or down to each button.
+
+We're using the [fat arrow](http://wesbos.com/arrow-functions/) notation from ES6 to pass the correct dotIndex value to the function, so each button will trigger changes to the correct dot. (remember that all the JSX inside of the ```.map``` function is repeated for every dot in guess)
+
+Your guessmaker should work now! The next two topics are extra coding tactics, which (like Zelda side quests) will make you stronger, but don't really drive the plot forward :D
 
 
 ## code
@@ -679,6 +747,58 @@ We're using the [fat arrow](http://wesbos.com/arrow-functions/) notation from ES
     </div>
   ) )
 }
+//...
+```
+
+### solution-step
+Destructuring the payload
+## instructions
+
+Usually in reducers, I'm using a new feature of JavaScript ES6 called DESTRUCTURING. [here's a link to some docs about it](http://www.jstips.co/en/javascript/use-destructuring-in-function-parameters/) - the point is we can take the part of an input parameter we're interested in right into a variable without wasting lines of code. Here, we care about action.payload, but nothing else from the action.
+
+We can rewrite our reducer with less code to do the same thing (REFACTOR) as follows.
+
+The second param to the reducer is still the action, we just automatically pull out the payload!
+
+
+## code
+./src/Game.js
+```js
+// ...
+  static get reducer(){
+    return {
+      changeGuessDot: (state, { payload })=>
+        state.updateIn(['guess', payload.dotIndex], dot=>
+          (dot + 6 + payload.diff) % 6 ),
+    };
+  }
+//...
+```
+
+### solution-step
+Debugging reducers
+## instructions
+
+Often, we don't know what's going on. So it's nice to get a ```console.log``` statement in so we can figure it out
+
+With reducers, I usually use a cheeky JS tactic to sneak one in without changing the outcome or needing to switch my one line fat arrow function ```(state, action)=> nuState``` to a bodied function ```(state, action)=> { console.log(state.toJS(), action); return nuState; }```
+
+The ```console.log``` always returns ```undefined```, so we get our values logged, then the || or operator will evaluate to the original expression on his right side (on the next line here).
+
+Nifty trick eh?
+
+## code
+./src/Game.js
+```js
+// ...
+  static get reducer(){
+    return {
+      changeGuessDot: (state, { payload: { dotIndex, diff } })=>
+        console.log(state.toJS(), dotIndex, diff) ||
+        state.updateIn(['guess', dotIndex], dot=>
+          (dot + 6 + diff) % 6 ),
+    };
+  }
 //...
 ```
 
